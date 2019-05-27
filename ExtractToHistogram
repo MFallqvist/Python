@@ -1,0 +1,62 @@
+import glob, os, re, time
+import numpy as np
+import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
+
+corner_ratio = list()
+sfr50_center = list()
+keys = list()
+
+
+def main():
+    # string keys
+    keys.append('corner_ratio')
+    keys.append('sfr50_center')
+    # Read values
+    folder = "C:\\Users\\essiq\\github\\Python"
+    # Then write to file
+    o = open("C:\\Users\\essiq\\github\\Python\\python_output.txt", "w+")
+
+    os.chdir(folder)
+    # Find all .txt files
+    for files in glob.glob("*.txt"):
+        # One at a time
+        with open(files, 'r') as fin:
+            # Check if we have interesting data, otherwise next file
+            find_keys(fin)
+
+    plot_histogram()
+
+
+def plot_histogram():
+    bins = 30
+    plt.subplot(len(keys), 1, 1)
+    i = 1
+    for key in keys:
+        ax = plt.subplot(2, 1, i)
+        plt.hist(np.asarray(globals().get(key, None), dtype='float'), bins=bins, facecolor='blue', alpha=0.5)
+        plt.title("Histogram of: " + key)
+        i += 1
+
+    plt.show()
+
+
+def find_keys(fin):
+    if keys[0] or keys[1] in fin:
+        # Check what line contains the key
+        for line in fin:
+            # Find each key value and save it
+            for key in keys:
+                if key in line:
+                    value = line.split()[len(line.split()) - 1]
+                    # But if value is a limit min:max, continue
+                    if ":" in value:
+                        continue
+                    else:
+                        list(key).append(value)
+                        globals().get(key, None).append(float(value))
+                        #print(value)
+
+
+if __name__ == "__main__":
+    main()

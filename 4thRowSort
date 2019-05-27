@@ -1,0 +1,46 @@
+
+
+def main():
+
+    time = list()
+    lux = list()
+    led0 = list()
+    led1 = list()
+    temp = list()
+
+    # Read values
+    f = "C:\\Users\\essiq\\Downloads\\test.txt"
+    # Then write to file
+    o = open("C:\\Users\\essiq\\Downloads\\python_output.txt", "w+")
+
+    i = 0
+    with open(f) as fin:
+        for line in fin:
+            print(temp)
+            #if i % 4 == 0:
+                #temp.append(line)
+            #if i % 4 == 1 or i % 4 == 2:
+             #   temp.append(line)
+            if i % 4 == 3:
+                temp.append(line.strip())
+                j = 0
+                for str in temp:
+                    #o.write(temp.pop())
+                    if j == 3:
+                        o.write(str + "\n")
+                    else:
+                        o.write(str + ", ")
+                    j += 1
+                temp.clear()
+            else:
+                temp.append(line.strip())
+
+            i += 1
+
+    #
+
+    #with open(o) as fout:
+     #   for timestamp in time:
+      #      fout.write(timestamp)
+if __name__ == "__main__":
+    main()
